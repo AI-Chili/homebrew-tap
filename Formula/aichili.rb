@@ -10,8 +10,15 @@ class Aichili < Formula
 
   def install
     libexec.install "bin", "src", "package.json", "SKILL.md", "README.md", "LICENSE"
-    (bin/"aichili").write_env_script libexec/"bin/aichili.mjs", PATH: "#{Formula["node"].opt_bin}:$PATH"
-    (bin/"aichili-mcp").write_env_script libexec/"bin/aichili-mcp.mjs", PATH: "#{Formula["node"].opt_bin}:$PATH"
+    chmod 0755, [libexec/"bin/aichili.mjs", libexec/"bin/aichili-mcp.mjs"]
+    (bin/"aichili").write <<~EOS
+      #!/bin/bash
+      exec "#{Formula["node"].opt_bin}/node" "#{libexec}/bin/aichili.mjs" "$@"
+    EOS
+    (bin/"aichili-mcp").write <<~EOS
+      #!/bin/bash
+      exec "#{Formula["node"].opt_bin}/node" "#{libexec}/bin/aichili-mcp.mjs" "$@"
+    EOS
   end
 
   test do

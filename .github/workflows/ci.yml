@@ -10,10 +10,13 @@ permissions:
 
 jobs:
   verify-formula:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - name: Ruby syntax & formula smoke test
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+          HOMEBREW_NO_INSTALL_CLEANUP: "1"
         run: |
           ruby -c Formula/aichili.rb
           brew tap-new --no-git local/aichili-test

@@ -1,8 +1,8 @@
 class Aichili < Formula
   desc "Official CLI and MCP server for AI Chili cinematic AI video generation"
   homepage "https://aichili.ai/developers"
-  url "https://github.com/AI-Chili/aichili/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "13b71c667f3584c7bbb95533edc3b58543ab9efab660e09b1993ad9b6bc9d33d"
+  url "https://github.com/AI-Chili/aichili/archive/refs/tags/v1.0.1.tar.gz"
+  sha256 "42412cd8f995e7031e6a4e94170e7cff8259eb36046ff4071aa60b41749e09d8"
   license "MIT"
   head "https://github.com/AI-Chili/aichili.git", branch: "main"
 
@@ -22,7 +22,7 @@ class Aichili < Formula
   end
 
   test do
-    assert_match "1.0.0", shell_output("#{bin}/aichili --version")
+    assert_match "1.0.1", shell_output("#{bin}/aichili --version")
     out = shell_output("#{bin}/aichili estimate --seconds 15 --resolution 768p --json")
     assert_match "\"totalCredits\": 15", out
   end

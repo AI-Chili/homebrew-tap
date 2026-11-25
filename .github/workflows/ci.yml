@@ -1,0 +1,24 @@
+name: Formula CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-formula:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ruby syntax & formula smoke test
+        run: |
+          ruby -c Formula/aichili.rb
+          brew tap-new --no-git local/aichili-test
+          cp Formula/aichili.rb "$(brew --repository local/aichili-test)/Formula/aichili.rb"
+          brew install --build-from-source local/aichili-test/aichili
+          brew test local/aichili-test/aichili
+          aichili --version
+          aichili estimate --seconds 15 --resolution 768p --json
